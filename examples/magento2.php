@@ -1,6 +1,9 @@
 <?php
 
 // >jetrails_
+// https://github.com/jetrails/deployer-autopilot
+
+declare(strict_types=1);
 
 namespace Deployer;
 

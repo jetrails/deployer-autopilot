@@ -9,11 +9,11 @@
         }
     ],
     "keywords": [
-        "deployer",
-        "recipe",
+        "deployer-php",
+        "deployer-recipe",
         "jetrails",
         "autopilot",
-        "magento",
+        "magento2",
         "shopware",
         "wordpress"
     ],
