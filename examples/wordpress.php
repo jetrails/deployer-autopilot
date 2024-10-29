@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace Deployer;
 
-require "recipe/magento2.php";
+require "recipe/wordpress.php";
 require __DIR__ . "/vendor/jetrails/deployer-autopilot/recipe/autopilot.php";
 
 // Config (Replace with your own)
@@ -41,11 +41,6 @@ host("production")
     ->set("remote_user", "{{cluster_user}}")
     ->set("hostname", "{{elastic_ip}}")
     ->set("port", "22");
-
-// Temporarily disable cron
-
-after("magento:maintenance:enable-if-needed", "magento:cron:stop");
-after("magento:upgrade:db", "magento:cron:install");
 
 // Restart services and flush cache
 

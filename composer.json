@@ -1,6 +1,6 @@
 {
     "name": "jetrails/deployer-autopilot",
-    "description": "AutoPilot deployer recipes and examples",
+    "description": "AutoPilot deployer recipe, guides, and examples",
     "license": [ "MIT" ],
     "authors": [
         {

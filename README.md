@@ -1,146 +1,65 @@
-# autopilot-deployer-example
-AutoPilot Deployment example repo using Deployer.org application
+# Deployer — AutoPilot Recipe
+> AutoPilot deployer recipe, guides, and examples
 
-# WORK IN PROGRESS
+## About
 
-What is Deployer? <BR>
-A deployment tool written in PHP with support for popular frameworks out of the box. Deployer is used by hundreds of thousands of projects worldwide, performing over a million monthly deploys. Deployer comes with more than 50 ready-to-use recipes for frameworks and third-party services.
-  
-This repository is created to help you adjust your Deployer.org deployment processes and deploy applications on the AutoPilot platform.
-  
-To get started, first, we need to install the Deployer application as per https://deployer.org/docs/7.x/installation guidelines.
-```
-curl -LO https://deployer.org/deployer.phar
-mv deployer.phar /usr/local/bin/dep
-chmod +x /usr/local/bin/dep
-```
+Deployer is a deployment tool written in PHP with support for popular frameworks out of the box.
+Deployer is used by hundreds of thousands of projects worldwide, performing over a million monthly deploys.
+Deployer comes with more than 50 ready-to-use recipes for frameworks and third-party services.
+You can find more information about Deployer at https://deployer.org/.
 
-Now, we can cd into the project and run the following command:
-```
-dep init
-```
+This repository is created to help you adjust your Deployer deployment configuration and deploy applications on the AutoPilot platform.
 
-Deployer will ask you a few questions, and after finishing, you will have a deploy.php or deploy.yaml file. This is our deployment recipe. It contains hosts and tasks and requires other recipes. All framework recipes that come with Deployer are based on this common recipe.
-https://deployer.org/docs/7.x/recipe/common
+## AutoPilot Recipe
 
-Deployer.org already covered Magento 2 recipe, and it can be downloaded/reviewed here:
-https://github.com/deployphp/deployer/blob/master/recipe/magento2.php
-  
-How to install this package:
-```
-composer require jetrails/autopilot-deployer-example --dev
+We have created a recipe that you can use to deploy your PHP applications on the AutoPilot platform.
+You can install the recipe using Composer by running the following command:
+
+```shell
+composer require jetrails/deployer-autopilot
 ```
 
-How to use it?
-After installing it, you can add the line below after the namespace and run dep to check:
+After installing the recipe, you can add the following code to the top of your `deploy.php` file:
 
 ```
-// AutoPilot Deployer recipe addon
-require __DIR__ . '/vendor/jetrails/autopilot-deployer-example/autopilot.php';
+require __DIR__ . "/vendor/jetrails/deployer-autopilot/recipe/autopilot.php";
 ```
 
-This recipe, when installed automatically, will clean all caches after the deployment success, but if you want to restart all services, add these into the bottom:
+This recipe, includes helpful tasks and configurations that are relevant to deploying applications on the AutoPilot platform.
+Here are the tasks that are included in the recipe:
 
-```
-// Extra commands definition goes here.
-```
+| Command                         | Description         |
+|---------------------------------|---------------------|
+| `autopilot:restart:php-fpm`     | Restart php-fpm     |
+| `autopilot:restart:nginx`       | Restart nginx       |
+| `autopilot:restart:mysql`       | Restart mysql       |
+| `autopilot:restart:rabbitmq`    | Restart rabbitmq    | 
+| `autopilot:restart:opensearch`  | Restart opensearch  |
+| `autopilot:restart:varnish`     | Restart varnish     |
+| `autopilot:flush:redis-cache`   | Flush redis-cache   |
+| `autopilot:flush:redis-session` | Flush redis-session |
 
-For example:
-```
-<?php
+We also include date based releases, which can be optionally enabled in your `deploy.php` file by adding the following line:
 
-namespace Deployer;
-// AutoPilot Recipe addon
-require __DIR__ . '/vendor/jetrails/autopilot-deployer-example/autopilot.php';
-
-// Application name
-set('application', 'MyMagentoApp');
-
-// Project repository
-set('repository', 'git@github.com:yourusername/yourmagento2repo.git');
-set('default_stage', 'production');
-
-// Set the default branch to deploy
-set('branch', 'master');
-
-// [Optional] Allocate tty for git clone. Default value is false.
-set('git_tty', true);
-
-// Shared files/dirs between releases
-// grab from https://github.com/deployphp/deployer/blob/master/recipe/magento2.php anything more useful.
-add('shared_files', ['app/etc/env.php']);
-add('shared_dirs', [
-    'var/',
-    'pub/media',
-    'pub/static'
-]);
-
-// Writable dirs by a web server
-add('writable_dirs', [
-    'var',
-    'pub/static',
-    'pub/media'
-]);
-
-set('allow_anonymous_stats', false);
-
-// Project Configurations
-host('production')
-    ->hostname('<Hostname/IP-address/from AutoPilot Panel')
-    ->user('<username defined in the AutoPilot panel>')
-    ->port(22)
-    ->set('deploy_path', '/var/www/')
-    ->set('branch', 'master')
-    ->stage('production');
-
-// We can define after commands that will be pushed
-// Main deployment task sequence
-desc('Deploy Magento 2 application');
-task('deploy', [
-    'deploy:prepare',
-    'deploy:vendors',
-    'deploy:clear_paths',
-    'magento:setup:upgrade',
-    'magento:compile',
-    'magento:deploy:static-content',
-    'magento:cache:flush',
-    'deploy:publish',
-]);
-
-// [Optional] If deploy fails, automatically unlock.
-after('deploy:failed', 'deploy:unlock');
-
-// Custom Magento tasks
-
-desc('Run Magento setup upgrade');
-task('magento:setup:upgrade', function () {
-    run('php {{release_path}}/bin/magento setup:upgrade');
-});
-
-desc('Compile Magento code');
-task('magento:compile', function () {
-    run('php {{release_path}}/bin/magento setup:di:compile');
-});
-
-desc('Deploy Magento static content');
-task('magento:deploy:static-content', function () {
-    run('php {{release_path}}/bin/magento setup:static-content:deploy');
-});
-
-desc('Flush Magento cache');
-task('magento:cache:flush', function () {
-    run('php {{release_path}}/bin/magento cache:flush');
-});
+```php
+set("release_name", "{{autopilot_release_name}}");
 ```
 
-Summary of all available commands:
+This will prefix the current date to the deployer release number, for example `2024-10-04-002`.
 
-| Command | Description |
-|----------|-------------|
-(we have to explain each command and what it does)
+## Examples & Guides
 
-Useful commands for deploy.php file:
-```
-// AutoPilot requires absolute symlinks
-set('use_relative_symlink', false);
-```
+You can find example `deploy.php` files in the `examples` directory that integrate the AutoPilot recipe with the official application recipes.
+
+| Application | Example                                          |
+|-------------|--------------------------------------------------|
+| Magento 2   | [examples/magento2.php](examples/magento2.php)   |
+| Shopware    | [examples/shopware.php](examples/shopware.php)   |
+| WordPress   | [examples/wordpress.php](examples/wordpress.php) |
+
+You can find additional guides on how to setup a deployment pipeline with popular continuous deployment tools here:
+
+| Platform       | Guide                                                        |
+|----------------|--------------------------------------------------------------|
+| Drone CI       | [docs/guide-drone-ci.md](docs/guide-drone-ci.md)             |
+| GitHub Actions | [docs/guide-github-actions.md](docs/guide-github-actions.md) |
