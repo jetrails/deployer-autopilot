@@ -27,10 +27,6 @@ set("http_user", "www-data");
 set("http_group", "www-data");
 set("keep_releases", 5);
 
-add("shared_files", []);
-add("shared_dirs", []);
-add("writable_dirs", []);
-
 // OPTIONAL: Date based release names
 
 set("release_name", "{{autopilot_release_name}}");

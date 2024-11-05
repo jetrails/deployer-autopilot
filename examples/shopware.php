@@ -27,9 +27,9 @@ set("http_user", "www-data");
 set("http_group", "www-data");
 set("keep_releases", 5);
 
-add("shared_files", []);
-add("shared_dirs", []);
-add("writable_dirs", []);
+// OPTIONAL: Enables updates and managing plugins via backend
+
+// add("writable_dirs", ["{{release_path}}"]);
 
 // OPTIONAL: Date based release names
 
