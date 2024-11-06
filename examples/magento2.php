@@ -31,8 +31,18 @@ add("shared_files", []);
 add("shared_dirs", []);
 add("writable_dirs", []);
 
-// OPTIONAL: Date based release names
-
+/**
+ * Release name.
+ * 
+ * The following setting will enable date based release names.
+ * 
+ * ```php
+ * set("release_name", "{{autopilot_release_name}}");
+ * ```
+ * 
+ * The format for these release names is YYYY-MM-DD-NNN where NNN is the
+ * release number.
+ */
 set("release_name", "{{autopilot_release_name}}");
 
 // Hosts
@@ -49,13 +59,14 @@ after("magento:upgrade:db", "magento:cron:install");
 
 // Restart services and flush cache
 
-after("deploy:success", [
+task("autopilot:restart:all", [
     "autopilot:restart:nginx",
     "autopilot:restart:php-fpm",
     "autopilot:restart:varnish",
     "autopilot:flush:redis-cache",
 ]);
 
-// Unlock on failure
+// Unlock on failure and restart services on success
 
+after("deploy:success", "autopilot:restart:all");
 after("deploy:failed", "deploy:unlock");
