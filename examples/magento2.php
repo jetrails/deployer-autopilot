@@ -33,13 +33,13 @@ add("writable_dirs", []);
 
 /**
  * Release name.
- * 
+ *
  * The following setting will enable date based release names.
- * 
+ *
  * ```php
  * set("release_name", "{{autopilot_release_name}}");
  * ```
- * 
+ *
  * The format for these release names is YYYY-MM-DD-NNN where NNN is the
  * release number.
  */

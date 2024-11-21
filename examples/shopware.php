@@ -7,12 +7,11 @@ declare(strict_types=1);
 
 namespace Deployer;
 
-require "recipe/wordpress.php";
+require "recipe/shopware.php";
 require __DIR__ . "/vendor/jetrails/deployer-autopilot/recipe/autopilot.php";
 
 // Config (Replace with your own)
 
-set("repository", "git@github.com:example/example.git");
 set("primary_domain", "example.com");
 set("cluster_user", "jrc-4d91-kn39");
 set("elastic_ip", "0.0.0.0");
@@ -21,18 +20,19 @@ set("elastic_ip", "0.0.0.0");
 
 set("deploy_path", "/var/www/{{primary_domain}}");
 set("current_path", "/var/www/{{primary_domain}}/live");
-set("writable_mode", "acl");
+set("writable_mode", "chmod");
 set("writable_recursive", true);
 set("http_user", "www-data");
 set("http_group", "www-data");
+set("become", "www-data");
 set("keep_releases", 5);
 
 /**
  * Writable directories.
- * 
+ *
  * The following setting will enable updates and managing plugins from the
  * Shopware admin.
- * 
+ *
  * ```php
  * add("writable_dirs", ["{{release_path}}"]);
  * ```
@@ -41,13 +41,13 @@ add("writable_dirs", ["{{release_path}}"]);
 
 /**
  * Release name.
- * 
+ *
  * The following setting will enable date based release names.
- * 
+ *
  * ```php
  * set("release_name", "{{autopilot_release_name}}");
  * ```
- * 
+ *
  * The format for these release names is YYYY-MM-DD-NNN where NNN is the
  * release number.
  */

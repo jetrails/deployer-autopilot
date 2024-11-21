@@ -29,23 +29,23 @@ set("keep_releases", 5);
 
 /**
  * Writable directories.
- * 
+ *
  * The following setting will enable updates and managing plugins from the
  * WordPress admin.
- * 
+ *
  * ```php
  * add("writable_dirs", ["{{release_path}}"]);
  * ```
- * 
+ *
  * This requires the FS_METHOD config value to be set to "direct". This can be
  * done in wp-config.php:
- * 
+ *
  * ```php
  * define('FS_METHOD', 'direct');
  * ```
- * 
+ *
  * It can also be done via wp-cli:
- * 
+ *
  * ```shell
  * wp config set FS_METHOD direct
  * ```
@@ -54,13 +54,13 @@ add("writable_dirs", ["{{release_path}}"]);
 
 /**
  * Release name.
- * 
+ *
  * The following setting will enable date based release names.
- * 
+ *
  * ```php
  * set("release_name", "{{autopilot_release_name}}");
  * ```
- * 
+ *
  * The format for these release names is YYYY-MM-DD-NNN where NNN is the
  * release number.
  */
