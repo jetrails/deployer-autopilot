@@ -17,6 +17,11 @@
         "shopware",
         "wordpress"
     ],
+    "autoload": {
+        "files": [
+            "autoload.php"
+        ]
+    },
     "require": {
         "deployer/deployer": "^7.5"
     },
