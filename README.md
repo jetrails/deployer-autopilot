@@ -16,13 +16,20 @@ We have created a recipe that you can use to deploy your PHP applications on the
 You can install the recipe using Composer by running the following command:
 
 ```shell
-composer require jetrails/deployer-autopilot
+composer require jetrails/deployer-autopilot --dev
 ```
 
 After installing the recipe, you can add the following code to the top of your `deploy.php` file:
 
 ```
-require __DIR__ . "/vendor/jetrails/deployer-autopilot/recipe/autopilot.php";
+require "./vendor/autoload.php";
+require "recipe/autopilot.php";
+```
+
+Alternatively, if you would like to include the recipe directly without using Composer, you can add the following line to your `deploy.php` file:
+
+```
+require "./vendor/jetrails/deployer-autopilot/recipe/autopilot.php";
 ```
 
 This recipe, includes helpful tasks and configurations that are relevant to deploying applications on the AutoPilot platform.

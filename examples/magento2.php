@@ -7,8 +7,9 @@ declare(strict_types=1);
 
 namespace Deployer;
 
+require "./vendor/autoload.php";
 require "recipe/magento2.php";
-require __DIR__ . "/vendor/jetrails/deployer-autopilot/recipe/autopilot.php";
+require "recipe/autopilot.php";
 
 // Config (Replace with your own)
 
