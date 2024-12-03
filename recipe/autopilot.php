@@ -74,42 +74,42 @@ function runAsWebUser($patterns = [])
 
 desc("Restart php-fpm");
 task("autopilot:restart:php-fpm", function () {
-    $restore = become("{{remote_user}}");
+    $restore = become ("{{remote_user}}");
     run("{{bin/cluster}} exec --quiet --role web -- sudo systemctl restart php-fpm");
     $restore();
 });
 
 desc("Restart nginx");
 task("autopilot:restart:nginx", function () {
-    $restore = become("{{remote_user}}");
+    $restore = become ("{{remote_user}}");
     run("{{bin/cluster}} exec --quiet --role web -- sudo systemctl restart nginx");
     $restore();
 });
 
 desc("Restart mysql");
 task("autopilot:restart:mysql", function () {
-    $restore = become("{{remote_user}}");
+    $restore = become ("{{remote_user}}");
     run("{{bin/cluster}} exec --quiet --role database -- sudo systemctl restart mysql");
     $restore();
 });
 
 desc("Restart rabbitmq");
 task("autopilot:restart:rabbitmq", function () {
-    $restore = become("{{remote_user}}");
+    $restore = become ("{{remote_user}}");
     run("{{bin/cluster}} exec --quiet --role queue -- sudo systemctl restart rabbitmq");
     $restore();
 });
 
 desc("Restart opensearch");
 task("autopilot:restart:opensearch", function () {
-    $restore = become("{{remote_user}}");
+    $restore = become ("{{remote_user}}");
     run("{{bin/cluster}} exec --quiet --role search -- sudo systemctl restart opensearch");
     $restore();
 });
 
 desc("Restart varnish");
 task("autopilot:restart:varnish", function () {
-    $restore = become("{{remote_user}}");
+    $restore = become ("{{remote_user}}");
     run("{{bin/cluster}} exec --quiet --role varnish -- sudo systemctl restart varnish");
     $restore();
 });
@@ -118,14 +118,14 @@ task("autopilot:restart:varnish", function () {
 
 desc("Flush redis-cache");
 task("autopilot:flush:redis-cache", function () {
-    $restore = become("{{remote_user}}");
+    $restore = become ("{{remote_user}}");
     run("bash /opt/jrc/bin/redis-cache FLUSHALL");
     $restore();
 });
 
 desc("Flush redis-session");
 task("autopilot:flush:redis-session", function () {
-    $restore = become("{{remote_user}}");
+    $restore = become ("{{remote_user}}");
     run("bash /opt/jrc/bin/redis-session FLUSHALL");
     $restore();
 });
