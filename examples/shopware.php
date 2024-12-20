@@ -23,6 +23,7 @@ set("deploy_path", "/var/www/{{primary_domain}}");
 set("current_path", "/var/www/{{primary_domain}}/live");
 set("writable_mode", "chmod");
 set("writable_recursive", true);
+set("writable_chmod_mode", "u=rwX,g=u,o=rX");
 set("http_user", "www-data");
 set("http_group", "www-data");
 set("become", "www-data");
